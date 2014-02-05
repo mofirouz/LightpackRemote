@@ -28,7 +28,7 @@
             <Switch
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:text="Light Switch"
+                android:text="@string/masterLightSwitch"
                 android:id="@+id/lightSwitch"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"

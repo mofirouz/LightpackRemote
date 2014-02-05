@@ -15,7 +15,7 @@ public class LightpackConnector {
         socket.connect(new InetSocketAddress(host, port), 5000);
 
         LightpackComm comm = new LightpackComm(socket);
-        String version = comm.readResponse();
+        String version = comm.readRawResponse();
 
         System.out.println("*** Lightpack connected! - Version: " + version);
 

@@ -24,9 +24,7 @@ public class Main extends Activity {
         lightSwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                lightpack.setLightStatus(isChecked);
-                lightSwitch.setChecked(lightpack.getLightStatus());
-                lightSwitch.invalidate();
+                send(isChecked);
             }
         });
 
@@ -34,17 +32,28 @@ public class Main extends Activity {
     }
 
     @Background
+    public void send(boolean isChecked) {
+        lightpack.setLightStatus(isChecked);
+        //lightSwitch.setChecked(lightpack.getLightStatus());
+//        lightSwitch.invalidate();
+    }
+
+    @Background
     public void connectToLightPack() {
         try {
             lightpack = LightpackConnector.connect("10.0.0.4", 3636);
             final boolean lightOn = lightpack.getLightStatus();
-            lightSwitch.setChecked(lightOn);
-            lightSwitch.invalidate();
+            this.runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    lightSwitch.setChecked(lightOn);
+                    lightSwitch.invalidate();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
     @Override
     public void onBackPressed() {
         if (isLightpackConnected()) {

@@ -1,5 +1,7 @@
 package com.mofirouz.lightpackremote.lightpacklibrary;
 
+import java.util.Map;
+
 /**
  * Represents a Lightpack box
  */
@@ -21,18 +23,15 @@ public class Lightpack {
     }
 
     public boolean getLightStatus() {
-        comm.sendCommand(LightpackCommand.GET_STATUS+"\n");
-        String[] status = comm.readResponse().split(":");
+        Map<String, String> status = comm.getInfo(LightpackCommand.GET_STATUS);
 
-        return (status.length > 1 && status[1].equalsIgnoreCase("on"));
+        return ("on".equalsIgnoreCase(status.get(LightpackCommand.GET_STATUS.getResponse())));
     }
 
-    public void setLightStatus(boolean on)
-    {
+    public void setLightStatus(boolean on) {
         String s="off";
         if (on) s = "on";
-        comm.sendCommand(LightpackCommand.SET_STATUS.getCommand() + ":" + s + "\n");
-        comm.readResponse();
+        comm.sendCommand(LightpackCommand.SET_STATUS, s);
     }
 
 
