@@ -1,38 +1,44 @@
-package com.mofirouz.lightpackremote.lightpacklibrary;
+package com.mofirouz.lightpackremote.jlightpack;
 
-import com.googlecode.androidannotations.annotations.Background;
+import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
+import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand.LightPackCommandValue;
+import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse;
+import com.mofirouz.lightpackremote.jlightpack.api.LockError;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadPoolExecutor;
 
 /**
- * Responsible for low level communication to Lightpack
+ * Responsible for low level communication to LightPack.
+ * All calls are non-blocking and happen on a new thread.
+ *
+ * There are a fix number of 20 calls that can be made at any onetime. More than that results in invocation queues.
+ *
+ * NB: Even though internally, I've written this to be sync-IO (because commands and responses are very small),
+ * the operation outside of this class are all Async.
  */
-public class LightpackComm {
+public class LightPackConnection {
     private final static Charset CHARSET_UTF8 = Charset.forName("UTF-8");
     private final Socket socket;
+    private final LightPackResponseCaller lightPackResponseCaller;
     private volatile boolean lock = false;
 
     private OutputStream out;
     private InputStream in;
 
-    private ExecutorService executorService = Executors.newCachedThreadPool();
+    private ExecutorService executorService = Executors.newFixedThreadPool(20);
 
-    public LightpackComm(Socket socket) {
+    public LightPackConnection(Socket socket, LightPackResponseCaller parser) {
         this.socket = socket;
+        this.lightPackResponseCaller = parser;
         try {
             out = socket.getOutputStream();
             in = socket.getInputStream();
@@ -41,26 +47,29 @@ public class LightpackComm {
         }
     }
 
-    public Map<String, String> getInfo(LightpackCommand command) {
+    public void requestInfo(LightPackCommand command) {
         lock();
-        Map<String, String> result = mapResponse(command, sendCommand(command.getCommand()));
+        Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand()));
         unlock();
 
-        return result;
+        lightPackResponseCaller.callback(result);
     }
 
-    public Map<String, String> sendCommand(LightpackCommand command, String value) {
+    public void sendCommand(LightPackCommand command, LightPackCommandValue value) {
+        sendCommand(command, value.name().toLowerCase());
+    }
+
+    public void sendCommand(LightPackCommand command, String value) {
         lock();
-        Map<String, String> result = mapResponse(command, sendCommand(command.getCommand() + ":" + value));
+        Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand() + ":" + value));
         unlock();
 
-        return result;
+        lightPackResponseCaller.callback(result);
     }
 
     public String readRawResponse() {
         byte[] bytesReceived = new byte[256];
         try {
-
             int bytes = in.read(bytesReceived,0,bytesReceived.length);
             String data = new String(bytesReceived, CHARSET_UTF8).trim();
 
@@ -75,15 +84,15 @@ public class LightpackComm {
         return "";
     }
 
-    private Map<String, String> mapResponse(LightpackCommand command, String rawResponse) {
-        Map result = new HashMap<String, String>();
+    private Map<LightPackCommand, LightPackResponse> mapResponse(LightPackCommand command, String rawResponse) {
+        Map<LightPackCommand, LightPackResponse> result = new HashMap<LightPackCommand, LightPackResponse>();
         String[] response = rawResponse.split(":");
 
         if (response.length == 1) {
-            result.put(command.getResponse(), response[0]);
+            result.put(command, LightPackResponse.parseResponse(response[0]));
         } else {
             for (int i = 0; i < response.length; i++) {
-                result.put(response[i], response[i+1]);
+                result.put(command, LightPackResponse.parseResponse(response[i+1]));
                 i++;
             }
         }
@@ -117,11 +126,11 @@ public class LightpackComm {
         if (lock)
             return;
 
-        sendCommand(LightpackCommand.LOCK.getCommand());
+        sendCommand(LightPackCommand.LOCK.getCommand());
     }
 
     private void unlock() throws LockError {
-        sendCommand(LightpackCommand.UNLOCK.getCommand());
+        sendCommand(LightPackCommand.UNLOCK.getCommand());
 
         lock = false;
     }

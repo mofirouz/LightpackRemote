@@ -1,0 +1,188 @@
+
+................................................................................
+apikey: 
+	 Command for enter an authorization key (see key in GUI) 
+	 Examples: 
+		 "apikey:{1ccf5dca-119d-45a0-a683-7d90a00c418f}" 
+		 "apikey:IDDQD" 
+	 Results: 
+		 "ok" 
+		 "fail" 
+................................................................................
+lock 
+	 Opens access to set-commands, If success - suspends capture and blocking access for other clients to set-commands. 
+	 Results: 
+		 "lock:success" 
+		 "lock:busy" 
+................................................................................
+unlock 
+	 Closes access to set-commands. Restores device settings from the current profile, and continues the normal execution of the application. 
+	 Results: 
+		 "unlock:success" 
+		 "unlock:not locked" 
+................................................................................
+getstatus 
+	 Get status of the backlight 
+	 Results: 
+		 "status:on" 
+		 "status:off" 
+		 "status:device error" 
+		 "status:unknown" 
+................................................................................
+getstatusapi 
+	 Get status of the lightpack API 
+	 Results: 
+		 "statusapi:busy" 
+		 "statusapi:idle" 
+................................................................................
+getprofile 
+	 Get the name of the current profile 
+	 Results: 
+		 "profile:SampleProfileName" 
+................................................................................
+getprofiles 
+	 Get names of the all available profiles 
+	 Results: 
+		 "profiles:Lightpack;New profile 1;New profile 2;" 
+................................................................................
+getcountleds 
+	 Get count leds of the current profile 
+	 Results: 
+		 "countleds:10" 
+................................................................................
+getleds 
+	 Get curent rect areas. Format: "N-X,Y,W,H;", where N - number of area, X,Y - position, H,W-size. 
+	 Results: 
+		 "leds:1-0,0,100,100;2-0,200,100,100;" 
+................................................................................
+getcolors 
+	 Get curent color leds. Format: "N-R,G,B;", where N - number of led, R, G, B - red, green and blue color components. 
+	 Results: 
+		 "colors:1-0,120,200;2-0,234,23;" 
+................................................................................
+getfps 
+	 Get FPS grabing 
+	 Results: 
+		 "fps:25.57" 
+................................................................................
+getscreensize 
+	 Get size screen 
+	 Results: 
+		 "screensize:0,0,1024,768" 
+................................................................................
+getmode 
+	 Get mode of the current profile 
+	 Results: 
+		 "mode:ambilight" 
+		 "mode:moodlamp" 
+................................................................................
+setcolor: 
+	 Set colors on several LEDs. Format: "N-R,G,B;", where N - number of led, R, G, B - red, green and blue color components. Works only on locking time (see lock). 
+	 Examples: 
+		 "setcolor:1-255,255,30;" 
+		 "setcolor:1-255,255,30;2-12,12,12;3-1,2,3;" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+setleds: 
+	 Set areas on several LEDs. Format: "N-X,Y,W,H;", where N - number of led, X,Y - position, H,W-size. Works only on locking time (see lock). 
+	 Examples: 
+		 "setleds:1-0,0,100,100;" 
+		 "setleds:1-0,0,100,100;2-0,100,100,100;3-100,0,100,100;" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+setgamma: 
+	 Set device gamma correction value [0.01 - 10]. Works only on locking time (see lock). 
+	 Examples: 
+		 "setgamma:2.5" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+setbrightness: 
+	 Set device brightness value [0 - 100]. Works only on locking time (see lock). 
+	 Examples: 
+		 "setbrightness:0" 
+		 "setbrightness:93" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+setsmooth: 
+	 Set device smooth value [0 - 255]. Works only on locking time (see lock). 
+	 Examples: 
+		 "setsmooth:10" 
+		 "setsmooth:128" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+setprofile: 
+	 Set current profile. Works only on locking time (see lock). 
+	 Examples: 
+		 "setprofile:Lightpack" 
+		 "setprofile:16x9" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+newprofile: 
+	 Create new profile. Works only on locking time (see lock). 
+	 Results: 
+		 "newprofile:16x9" 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+deleteprofile: 
+	 Delete profile. Works only on locking time (see lock). 
+	 Results: 
+		 "deleteprofile:16x9" 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+setstatus: 
+	 Set backlight status. Works only on locking time (see lock). 
+	 Examples: 
+		 "setstatus:on" 
+		 "setstatus:off" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+setmode: 
+	 Set backlight mode. Works only on locking time (see lock). 
+	 Examples: 
+		 "setmode:ambilight" 
+		 "setmode:moodlamp" 
+	 Results: 
+		 "ok" 
+		 "error" 
+		 "busy" 
+		 "not locked" 
+................................................................................
+? 
+	 Short version of this help 
+................................................................................
+exit 
+	 Closes connection 

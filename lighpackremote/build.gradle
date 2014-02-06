@@ -34,10 +34,15 @@ configurations {
 }
 
 dependencies {
+    compile 'com.google.guava:guava:16.0.1'
+
     compile 'com.android.support:support-v4:13.0.+'
 
     apt "com.googlecode.androidannotations:androidannotations:${androidAnnotationsVersion}"
     compile "com.googlecode.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
+
+    compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
+    compile 'com.mobsandgeeks:android-saripaar:1.0.2'
 }
 
 android.applicationVariants.all { variant ->
