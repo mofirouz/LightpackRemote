@@ -4,8 +4,8 @@
     <string name="app_name">Lightpack Remote</string>
     <string name="action_settings">Settings</string>
 
-    <string name="no_device">Prismatik connection not setup\n\nPlease ensure your device is turned on \n and configured in Settings</string>
-    <string name="connection_error">Connection error!\n\nPlease ensure your device is turned on \n and configured in Settings</string>
+    <string name="no_device">Prismatik connection not setup\n\nPlease configure your device in the settings menu</string>
+    <string name="connection_error">Connection error!\nPlease ensure your device is turned on \n\n Pull down to reconnect</string>
     <string name="connecting">Connecting...</string>
     <string name="off_device">Turn lights on!</string>
 

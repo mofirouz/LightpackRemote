@@ -22,6 +22,8 @@ public class DeviceResponseListener implements LightPackResponseListener {
                 activity.statusMessage.setText(R.string.connection_error);
                 activity.statusMessage.setTextColor(Color.RED);
                 activity.statusMessage.setVisibility(View.VISIBLE);
+
+                activity.pullToRefreshLayout.setRefreshComplete();
             }
         });
     }

@@ -34,7 +34,7 @@ public class Main extends Activity {
     public LightPack lightPack;
 
     public UiController uiController;
-    public final OnRefreshListener refreshListener = new MainActivityOnRefreshListener();
+    public OnRefreshListener refreshListener;
     public Menu menu;
     public Switch lightSwitch;
 
@@ -80,11 +80,14 @@ public class Main extends Activity {
 
     @UiThread
     public void refreshState() {
-        if (!isLightpackConnected())
+        if (!isLightpackConnected()) {
+            pullToRefreshLayout.setRefreshComplete();
             return;
+        }
 
         lightPack.requestLightStatus();
         this.menu.findItem(R.id.menu_lightSwitch).setVisible(true);
+        pullToRefreshLayout.setRefreshComplete();
     }
 
     @UiThread
@@ -92,16 +95,22 @@ public class Main extends Activity {
         statusMessage.setText(R.string.no_device);
         statusMessage.setTextColor(Color.RED);
         statusMessage.setVisibility(View.VISIBLE);
+
+        pullToRefreshLayout.setRefreshComplete();
     }
 
 // --------------------
 
     @AfterViews
     public void afterViews() {
+        refreshListener = new MainActivityOnRefreshListener(this);
         ActionBarPullToRefresh.from(this)
                 .allChildrenArePullable()
                 .listener(refreshListener)
                 .setup(pullToRefreshLayout);
+
+
+        pullToRefreshLayout.setRefreshing(true);
     }
 
     @Override

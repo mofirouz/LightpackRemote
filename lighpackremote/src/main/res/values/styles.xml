@@ -12,9 +12,9 @@
         <item name="ptrProgressBarStyle">outside</item>
         <item name="ptrProgressBarColor">@android:color/holo_orange_light</item>
 
-        <item name="ptrPullText">Pull to refresh</item>
-        <item name="ptrRefreshingText">Refreshing...</item>
-        <item name="ptrReleaseText">Refreshing...</item>
+        <item name="ptrPullText"></item>
+        <item name="ptrRefreshingText"></item>
+        <item name="ptrReleaseText"></item>
     </style>
 
     <style name="TextAppearance.Custom.PtrHeader.Title"
