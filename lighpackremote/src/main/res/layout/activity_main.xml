@@ -22,17 +22,50 @@
                         tools:context="com.mofirouz.lightpackremote.Main$PlaceholderFragment">
 
 
-            <TextView
+            <RelativeLayout
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="@android:style/TextAppearance.Holo.Small"
-                android:text="@string/connecting"
-                android:id="@+id/statusMessage"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
+                android:layout_height="fill_parent"
+                android:id="@+id/statusMessageLayout"
+                android:visibility="invisible"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:textColor="@android:color/darker_gray"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="30dp">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@android:style/TextAppearance.Holo.Small"
+                    android:text="@string/connecting"
+                    android:visibility="visible"
+                    android:id="@+id/statusMessage"
+                    android:gravity="center"
+                    android:textColor="@android:color/darker_gray"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:visibility="invisible"
+                android:id="@+id/mainLayout">
+
+                <Spinner
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/modeSpinner"/>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/moodlampLayout">
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:id="@+id/ambilightLayout">
+                </RelativeLayout>
+            </RelativeLayout>
+
         </RelativeLayout>
     </ScrollView>
 </uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout>

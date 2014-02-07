@@ -5,4 +5,6 @@ public interface LightPackResponseListener {
     public void onConnectFailure();
     public void onLightsOff();
     public void onLightsOn();
+    public void onAmbilight();
+    public void onMoodlamp();
 }

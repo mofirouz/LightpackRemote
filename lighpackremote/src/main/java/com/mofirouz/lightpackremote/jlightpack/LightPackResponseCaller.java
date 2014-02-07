@@ -22,6 +22,11 @@ public class LightPackResponseCaller {
                     else listener.onLightsOff();
                     break;
 
+                case GET_MODE:
+                    if (response.getApiResponse() == LightPackApiResponse.MOODLAMP) listener.onMoodlamp();
+                    else listener.onAmbilight();
+                    break;
+
             }
         }
     }

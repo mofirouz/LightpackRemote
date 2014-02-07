@@ -7,7 +7,9 @@ public enum LightPackCommand {
     LOCK ("lock"),
     UNLOCK ("unlock"),
     GET_STATUS ("getstatus"),
-    SET_STATUS ("setstatus");
+    SET_STATUS ("setstatus"),
+    GET_MODE ("getmode"),
+    SET_MODE ("setmode");
 
     //TODO: add more commands here...
 
@@ -23,10 +25,5 @@ public enum LightPackCommand {
 
     public static LightPackCommand getCommand(String value) {
         return LightPackCommand.valueOf(value.toUpperCase());
-    }
-
-    public enum LightPackCommandValue {
-        ON,
-        OFF;
     }
 }

@@ -1,8 +1,8 @@
 package com.mofirouz.lightpackremote.jlightpack;
 
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand.LightPackCommandValue;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse;
+import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
 import com.mofirouz.lightpackremote.jlightpack.api.LockError;
 
 import java.io.IOException;
@@ -55,7 +55,7 @@ public class LightPackConnection {
         lightPackResponseCaller.callback(result);
     }
 
-    public void sendCommand(LightPackCommand command, LightPackCommandValue value) {
+    public void sendCommand(LightPackCommand command, LightPackApiResponse value) {
         sendCommand(command, value.name().toLowerCase());
     }
 

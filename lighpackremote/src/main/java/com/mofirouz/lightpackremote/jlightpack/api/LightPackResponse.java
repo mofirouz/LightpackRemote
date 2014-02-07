@@ -20,6 +20,8 @@ public class LightPackResponse {
         IDLE,
         ON,
         OFF,
+        AMBILIGHT,
+        MOODLAMP,
         /** Dynamic responses. Make sure you looked up UnrecognizedResponses for the whole list */
         UNKNOWN;
     }

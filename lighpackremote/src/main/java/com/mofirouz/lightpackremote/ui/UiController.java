@@ -1,5 +1,9 @@
 package com.mofirouz.lightpackremote.ui;
 
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 
@@ -20,6 +24,20 @@ public class UiController {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 lightPack.updateLightStatus(isChecked);
+            }
+        });
+
+        activity.modeSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = (String) parent.getItemAtPosition(position);
+                System.out.println("------selected " + item);
+                lightPack.updateMode(item);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }

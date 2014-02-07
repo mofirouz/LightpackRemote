@@ -6,7 +6,10 @@ import android.graphics.Color;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -37,6 +40,7 @@ public class Main extends Activity {
     public OnRefreshListener refreshListener;
     public Menu menu;
     public Switch lightSwitch;
+    public ArrayAdapter<CharSequence> spinnerAdapter;
 
     @Pref
     DevicePrefs_ prefs;
@@ -45,6 +49,16 @@ public class Main extends Activity {
     public PullToRefreshLayout pullToRefreshLayout;
     @ViewById
     public TextView statusMessage;
+    @ViewById
+    public RelativeLayout statusMessageLayout;
+    @ViewById
+    public RelativeLayout mainLayout;
+    @ViewById
+    public Spinner modeSpinner;
+    @ViewById
+    public RelativeLayout moodlampLayout;
+    @ViewById
+    public RelativeLayout ambilightLayout;
 
     @Background
     public void start() {
@@ -94,7 +108,8 @@ public class Main extends Activity {
     public void noDeviceSetup() {
         statusMessage.setText(R.string.no_device);
         statusMessage.setTextColor(Color.RED);
-        statusMessage.setVisibility(View.VISIBLE);
+        statusMessageLayout.setVisibility(View.VISIBLE);
+        mainLayout.setVisibility(View.INVISIBLE);
 
         pullToRefreshLayout.setRefreshComplete();
     }
@@ -109,8 +124,11 @@ public class Main extends Activity {
                 .listener(refreshListener)
                 .setup(pullToRefreshLayout);
 
-
         pullToRefreshLayout.setRefreshing(true);
+
+        spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.lights_modes, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        modeSpinner.setAdapter(spinnerAdapter);
     }
 
     @Override

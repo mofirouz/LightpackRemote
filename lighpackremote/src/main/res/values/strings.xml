@@ -17,5 +17,10 @@
     <string name="port_field">Device Port: </string>
     <string name="save_settings">Save</string>
 
+    <string-array name="lights_modes">
+        <item>Ambilight</item>
+        <item>Moodlamp</item>
+    </string-array>
+
 
 </resources>

@@ -1,7 +1,7 @@
 package com.mofirouz.lightpackremote.jlightpack;
 
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand.LightPackCommandValue;
+import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
 
 /**
  * Represents a LightPack box. This object does *not* hold any state, and therefore every time a method is invoked, a network call is made.
@@ -32,8 +32,17 @@ public class LightPack {
     }
 
     public void updateLightStatus(boolean lightsOn) {
-        comm.sendCommand(LightPackCommand.SET_STATUS, lightsOn ? LightPackCommandValue.ON : LightPackCommandValue.OFF);
+        comm.sendCommand(LightPackCommand.SET_STATUS, lightsOn ? LightPackApiResponse.ON : LightPackApiResponse.OFF);
         requestLightStatus();
+    }
+
+    public void requestCurrentMode() {
+        comm.requestInfo(LightPackCommand.GET_MODE);
+    }
+
+    public void updateMode(String mode) {
+        comm.sendCommand(LightPackCommand.SET_MODE, mode.replaceAll(" ","").toLowerCase());
+        requestCurrentMode();
     }
 
 
