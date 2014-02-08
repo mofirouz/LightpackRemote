@@ -3,6 +3,7 @@ package com.mofirouz.lightpackremote;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +47,9 @@ public class Main extends Activity {
     DevicePrefs_ prefs;
 
     @ViewById
+    public DrawerLayout drawerLayout;
+
+    @ViewById
     public PullToRefreshLayout pullToRefreshLayout;
     @ViewById
     public TextView statusMessage;
@@ -54,14 +58,17 @@ public class Main extends Activity {
     @ViewById
     public RelativeLayout mainLayout;
     @ViewById
-    public Spinner modeSpinner;
-    @ViewById
     public RelativeLayout moodlampLayout;
     @ViewById
     public RelativeLayout ambilightLayout;
 
+    @ViewById
+    public Spinner modeSpinner;
+
     @Background
     public void start() {
+        enableDrawer(false);
+
         deviceListener = new DeviceResponseListener(this);
         connectToLightPack(deviceListener);
 
@@ -107,11 +114,33 @@ public class Main extends Activity {
     @UiThread
     public void noDeviceSetup() {
         statusMessage.setText(R.string.no_device);
-        statusMessage.setTextColor(Color.RED);
-        statusMessageLayout.setVisibility(View.VISIBLE);
-        mainLayout.setVisibility(View.INVISIBLE);
+        enableApplicationUi(false);
 
         pullToRefreshLayout.setRefreshComplete();
+    }
+
+// --------------------
+
+    @UiThread
+    public void enableDrawer(boolean enabled) {
+        if (enabled)
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        else
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    @UiThread
+    public void enableApplicationUi(boolean enable) {
+        if (enable) {
+            statusMessageLayout.setVisibility(View.INVISIBLE);
+            mainLayout.setVisibility(View.VISIBLE);
+            enableDrawer(true);
+        } else {
+            statusMessage.setTextColor(Color.GRAY);
+            statusMessageLayout.setVisibility(View.VISIBLE);
+            mainLayout.setVisibility(View.INVISIBLE);
+            enableDrawer(false);
+        }
     }
 
 // --------------------
