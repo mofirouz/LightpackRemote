@@ -3,6 +3,7 @@
 
     <string name="app_name">Lightpack Remote</string>
     <string name="action_settings">Settings</string>
+    <string name="api_update_notice">There will be more settings here as the Prismatik API gains more power,\nsuch as the ability to set screen grab delays and etc.</string>
 
     <string name="no_device">Prismatik connection not setup\n\nPlease configure your device in the settings menu</string>
     <string name="connection_error">Connection error!\nPlease ensure your device is turned on \n\n Pull down to reconnect</string>
@@ -22,6 +23,12 @@
         <item>Ambilight</item>
         <item>Moodlamp</item>
     </string-array>
+
+    <string name="profiles">Profile: </string>
+    <string name="brightness">Brightness: </string>
+    <string name="gamma">Gamma: </string>
+    <string name="smoothness">Smoothness: </string>
+    <string name="fps">FPS: </string>
 
 
 </resources>

@@ -36,6 +36,19 @@ public class LightPack {
         requestLightStatus();
     }
 
+    public void requestAllProfiles() {
+        comm.requestInfo(LightPackCommand.GET_ALL_PROFILES);
+    }
+
+    public void requestCurrentProfile() {
+        comm.requestInfo(LightPackCommand.GET_PROFILE);
+    }
+
+    public void updateProfile(String profile) {
+        comm.sendCommand(LightPackCommand.SET_PROFILE, profile);
+        requestCurrentProfile();
+    }
+
     public void requestCurrentMode() {
         comm.requestInfo(LightPackCommand.GET_MODE);
     }
@@ -45,5 +58,39 @@ public class LightPack {
         requestCurrentMode();
     }
 
+    public void requestBrightness() {
+        comm.requestInfo(LightPackCommand.GET_BRIGHTNESS);
+    }
+
+    public void requestGamma() {
+        comm.requestInfo(LightPackCommand.GET_GAMMA);
+    }
+
+    public void requestSmoothness() {
+        comm.requestInfo(LightPackCommand.GET_SMOOTHNESS);
+    }
+
+    public void updateBrightness(int value) {
+        comm.sendCommand(LightPackCommand.SET_BRIGHTNESS, String.valueOf(value));
+        requestBrightness();
+    }
+
+    public void updateGamma(int value) {
+        comm.sendCommand(LightPackCommand.SET_GAMMA, String.valueOf(value));
+        requestGamma();
+    }
+
+    public void updateSmoothness(int value) {
+        comm.sendCommand(LightPackCommand.SET_SMOOTHNESS, String.valueOf(value));
+        requestSmoothness();
+    }
+
+    public void requestFps() {
+        comm.requestInfo(LightPackCommand.GET_FPS);
+    }
+
+    public void requestLedCount() {
+        comm.requestInfo(LightPackCommand.COUNT_LEDS);
+    }
 
 }

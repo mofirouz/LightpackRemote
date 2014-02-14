@@ -1,15 +1,19 @@
 package com.mofirouz.lightpackremote;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
+import com.mofirouz.lightpackremote.jlightpack.ColourUtil;
 import com.mofirouz.lightpackremote.jlightpack.LightPack;
 import com.mofirouz.lightpackremote.jlightpack.LightPackConnector;
 import com.mofirouz.lightpackremote.jlightpack.LightPackResponseListener;
@@ -28,12 +33,22 @@ import com.mofirouz.lightpackremote.ui.DeviceResponseListener;
 import com.mofirouz.lightpackremote.ui.MainActivityOnRefreshListener;
 import com.mofirouz.lightpackremote.ui.UiController;
 
+import org.w3c.dom.Text;
+
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
+import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
+import uk.co.senab.actionbarpulltorefresh.library.EnvironmentDelegate;
+import uk.co.senab.actionbarpulltorefresh.library.HeaderTransformer;
+import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
 @EActivity(R.layout.activity_main)
 public class Main extends Activity {
+    private static int actionBarDefaultColor = Color.BLACK;
+    private static int actionBarOffColor;
+    private static int actionBarOnColor;
+
     public LightPackResponseListener deviceListener;
     public LightPack lightPack;
 
@@ -42,6 +57,7 @@ public class Main extends Activity {
     public Menu menu;
     public Switch lightSwitch;
     public ArrayAdapter<CharSequence> spinnerAdapter;
+    public ArrayAdapter<CharSequence> profileAdapter;
 
     @Pref
     DevicePrefs_ prefs;
@@ -63,7 +79,18 @@ public class Main extends Activity {
     public RelativeLayout ambilightLayout;
 
     @ViewById
+    public Spinner profileSpinner;
+    @ViewById
     public Spinner modeSpinner;
+    @ViewById
+    public SeekBar brightnessSeekbar;
+    @ViewById
+    public SeekBar gammaSeekbar;
+    @ViewById
+    public SeekBar smoothnessSeekbar;
+    @ViewById
+    public TextView fps;
+
 
     @Background
     public void start() {
@@ -106,9 +133,13 @@ public class Main extends Activity {
             return;
         }
 
-        lightPack.requestLightStatus();
+        refreshDeviceState();
+
         this.menu.findItem(R.id.menu_lightSwitch).setVisible(true);
         pullToRefreshLayout.setRefreshComplete();
+
+        randomizeActionBarColor(false);
+
     }
 
     @UiThread
@@ -117,6 +148,17 @@ public class Main extends Activity {
         enableApplicationUi(false);
 
         pullToRefreshLayout.setRefreshComplete();
+    }
+
+    @Background
+    public void refreshDeviceState() {
+        lightPack.requestLedCount();
+        lightPack.requestLightStatus();
+        lightPack.requestAllProfiles();
+        lightPack.requestCurrentProfile();
+        lightPack.requestBrightness();
+        lightPack.requestGamma();
+        lightPack.requestSmoothness();
     }
 
 // --------------------
@@ -132,15 +174,37 @@ public class Main extends Activity {
     @UiThread
     public void enableApplicationUi(boolean enable) {
         if (enable) {
+            getActionBar().setBackgroundDrawable(new ColorDrawable(actionBarOnColor));
             statusMessageLayout.setVisibility(View.INVISIBLE);
             mainLayout.setVisibility(View.VISIBLE);
             enableDrawer(true);
         } else {
+            getActionBar().setBackgroundDrawable(new ColorDrawable(actionBarOffColor));
             statusMessage.setTextColor(Color.GRAY);
             statusMessageLayout.setVisibility(View.VISIBLE);
             mainLayout.setVisibility(View.INVISIBLE);
             enableDrawer(false);
         }
+    }
+
+    private void randomizeActionBarColor(boolean bypassCheck) {
+        if (!bypassCheck)
+            if (!isLightpackConnected() || !lightSwitch.isChecked())
+                return;
+
+        actionBarOffColor = ColourUtil.generateColor();
+        actionBarOnColor = ColourUtil.lighter(actionBarOffColor, 1.5);
+
+        getActionBar().setBackgroundDrawable(new ColorDrawable(actionBarOnColor));
+
+        DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) pullToRefreshLayout.getHeaderTransformer();
+        TextView textView = (TextView) transformer.getHeaderView().findViewById(uk.co.senab.actionbarpulltorefresh.library.R.id.ptr_text);
+        ViewGroup contentLayout = (ViewGroup) transformer.getHeaderView().findViewById(uk.co.senab.actionbarpulltorefresh.library.R.id.ptr_content);
+        transformer.setProgressBarColor(actionBarOffColor);
+        transformer.getHeaderView().setBackground(new ColorDrawable(actionBarOnColor));
+        textView.setBackground(new ColorDrawable(actionBarOnColor));
+        textView.setTextColor(actionBarOffColor);
+        contentLayout.setBackground(new ColorDrawable(actionBarOnColor));
     }
 
 // --------------------
@@ -149,15 +213,22 @@ public class Main extends Activity {
     public void afterViews() {
         refreshListener = new MainActivityOnRefreshListener(this);
         ActionBarPullToRefresh.from(this)
-                .allChildrenArePullable()
-                .listener(refreshListener)
-                .setup(pullToRefreshLayout);
+                            .allChildrenArePullable()
+                            .listener(refreshListener)
+                            .setup(pullToRefreshLayout);
 
         pullToRefreshLayout.setRefreshing(true);
+
+        randomizeActionBarColor(true);
 
         spinnerAdapter = ArrayAdapter.createFromResource(this, R.array.lights_modes, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         modeSpinner.setAdapter(spinnerAdapter);
+
+        profileAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
+        profileAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        profileSpinner.setAdapter(profileAdapter);
+
     }
 
     @Override

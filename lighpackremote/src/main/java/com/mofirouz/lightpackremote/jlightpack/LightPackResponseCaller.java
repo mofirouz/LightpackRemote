@@ -22,11 +22,38 @@ public class LightPackResponseCaller {
                     else listener.onLightsOff();
                     break;
 
+                case GET_ALL_PROFILES:
+                    listener.onProfiles(response.getUnrecognizedResponses().toArray(new String[0])); // todo: verify this...
+                    break;
+
+                case GET_PROFILE:
+                    listener.onProfileSelection(response.getUnrecognizedResponses().get(0)); // todo: verify this...
+                    break;
+
                 case GET_MODE:
                     if (response.getApiResponse() == LightPackApiResponse.MOODLAMP) listener.onMoodlamp();
                     else listener.onAmbilight();
                     break;
 
+                case GET_BRIGHTNESS:
+//                    listener.onBrightnessUpdate(Integer.parseInt(response.getUnrecognizedResponses().get(0)));
+                    break;
+
+                case GET_GAMMA:
+//                    listener.onGammaUpdate(Integer.parseInt(response.getUnrecognizedResponses().get(0)));
+                    break;
+
+                case GET_SMOOTHNESS:
+//                    listener.onSmoothnessUpdate(Integer.parseInt(response.getUnrecognizedResponses().get(0)));
+                    break;
+
+                case GET_FPS:
+                    listener.onFpsUpdate(Double.parseDouble(response.getUnrecognizedResponses().get(0)));
+                    break;
+
+                case COUNT_LEDS:
+                    listener.onLedCountUpdate(Integer.parseInt(response.getUnrecognizedResponses().get(0)));
+                    break;
             }
         }
     }

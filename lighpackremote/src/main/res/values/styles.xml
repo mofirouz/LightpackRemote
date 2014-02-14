@@ -9,18 +9,17 @@
         <item name="ptrHeaderBackground">@android:color/transparent</item>
 
         <item name="ptrHeaderTitleTextAppearance">@style/TextAppearance.Custom.PtrHeader.Title</item>
-        <item name="ptrProgressBarStyle">outside</item>
+        <item name="ptrProgressBarStyle">inside</item>
         <item name="ptrProgressBarColor">@android:color/holo_orange_light</item>
 
-        <item name="ptrPullText"></item>
-        <item name="ptrRefreshingText"></item>
-        <item name="ptrReleaseText"></item>
+        <item name="ptrPullText">Pull To Refresh</item>
+        <item name="ptrRefreshingText">Refreshing</item>
+        <item name="ptrReleaseText">Release To Refresh</item>
     </style>
 
     <style name="TextAppearance.Custom.PtrHeader.Title"
            parent="android:TextAppearance.Large.Inverse">
         <item name="android:textSize">14dp</item>
-        <item name="android:textColor">@android:color/holo_orange_light</item>
+        <item name="android:textColor">@android:color/background_dark</item>
     </style>
-
 </resources>

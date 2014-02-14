@@ -1,5 +1,7 @@
 package com.mofirouz.lightpackremote.jlightpack;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
@@ -18,7 +20,7 @@ public class LightPackConnector {
             LightPackConnection comm = new LightPackConnection(socket, new LightPackResponseCaller(listener));
             String version = comm.readRawResponse();
 
-            System.out.println("*** LightPack connected! - Version: " + version);
+            Log.i(LightPackConnector.class.getSimpleName(), "*** LightPack connected! - Version: " + version);
 
             return new LightPack(comm, version);
         } catch (IOException e) {

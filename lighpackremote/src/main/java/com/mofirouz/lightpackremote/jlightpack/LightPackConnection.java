@@ -34,7 +34,7 @@ public class LightPackConnection {
     private OutputStream out;
     private InputStream in;
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(20);
+    private ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public LightPackConnection(Socket socket, LightPackResponseCaller parser) {
         this.socket = socket;
@@ -75,7 +75,6 @@ public class LightPackConnection {
 
             data = data.replaceAll("\n", "");
 
-            System.out.println(" +++ " + data);
             return data;
         } catch (IOException e) {
             e.printStackTrace();
@@ -108,7 +107,6 @@ public class LightPackConnection {
                     byte[] bytesSent = (command+"\n").getBytes();
                     out.write(bytesSent);
                     out.flush();
-                    System.out.println(" --- " + new String(bytesSent));
                     return readRawResponse();
                 }
             }).get();
