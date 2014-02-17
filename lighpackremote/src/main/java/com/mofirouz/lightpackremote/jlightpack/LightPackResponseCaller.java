@@ -12,6 +12,10 @@ public class LightPackResponseCaller {
         this.listener = lightPackResponseListener;
     }
 
+    public void onError(LightPackCommand command, Exception e) {
+        listener.onError(command, e);
+    }
+
     public void callback(Map<LightPackCommand, LightPackResponse> responses) {
         for (LightPackCommand command : responses.keySet()) {
             LightPackResponse response = responses.get(command);

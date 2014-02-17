@@ -5,7 +5,9 @@ import android.widget.ArrayAdapter;
 
 import com.mofirouz.lightpackremote.Main;
 import com.mofirouz.lightpackremote.R;
+import com.mofirouz.lightpackremote.jlightpack.LightPack;
 import com.mofirouz.lightpackremote.jlightpack.LightPackResponseListener;
+import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
 
 public class DeviceResponseListener implements LightPackResponseListener {
@@ -13,6 +15,11 @@ public class DeviceResponseListener implements LightPackResponseListener {
 
     public DeviceResponseListener (Main activity) {
         this.activity = activity;
+    }
+
+    @Override
+    public void onConnect(LightPack lightPack) {
+        activity.onConnect(lightPack);
     }
 
     @Override
@@ -24,8 +31,14 @@ public class DeviceResponseListener implements LightPackResponseListener {
                 activity.pullToRefreshLayout.setRefreshComplete();
 
                 activity.enableApplicationUi(false);
+                activity.onLightpackDisconnect();
             }
         });
+    }
+
+    @Override
+    public void onError(LightPackCommand command, Exception e) {
+        onConnectFailure();
     }
 
     @Override
@@ -155,7 +168,7 @@ public class DeviceResponseListener implements LightPackResponseListener {
         activity.runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                activity.fps.setText(activity.getString(R.string.fps) + " " + fps);
+                activity.fps.setText(activity.getString(R.string.fps) + " " + fps + activity.getString(R.string.api_update_notice));
             }
         });
     }

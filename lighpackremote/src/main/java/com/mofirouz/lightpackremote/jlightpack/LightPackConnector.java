@@ -10,7 +10,7 @@ import java.net.Socket;
  * Responsible for connecting up to a LightPack device
  */
 public class LightPackConnector {
-    public static LightPack connect(String host, int port, LightPackResponseListener listener) {
+    public static void connect(String host, int port, LightPackResponseListener listener) {
         try {
             Socket socket = new Socket();
             socket.setTcpNoDelay(true);
@@ -22,10 +22,9 @@ public class LightPackConnector {
 
             Log.i(LightPackConnector.class.getSimpleName(), "*** LightPack connected! - Version: " + version);
 
-            return new LightPack(comm, version);
+            listener.onConnect(new LightPack(comm, version));
         } catch (IOException e) {
             listener.onConnectFailure();
-            return null;
         }
     }
 

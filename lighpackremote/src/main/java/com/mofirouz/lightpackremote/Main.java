@@ -1,7 +1,6 @@
 package com.mofirouz.lightpackremote;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -33,13 +32,8 @@ import com.mofirouz.lightpackremote.ui.DeviceResponseListener;
 import com.mofirouz.lightpackremote.ui.MainActivityOnRefreshListener;
 import com.mofirouz.lightpackremote.ui.UiController;
 
-import org.w3c.dom.Text;
-
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.EnvironmentDelegate;
-import uk.co.senab.actionbarpulltorefresh.library.HeaderTransformer;
-import uk.co.senab.actionbarpulltorefresh.library.Options;
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 
@@ -50,7 +44,7 @@ public class Main extends Activity {
     private static int actionBarOnColor;
 
     public LightPackResponseListener deviceListener;
-    public LightPack lightPack;
+    public volatile LightPack lightPack;
 
     public UiController uiController;
     public OnRefreshListener refreshListener;
@@ -97,16 +91,6 @@ public class Main extends Activity {
         enableDrawer(false);
 
         deviceListener = new DeviceResponseListener(this);
-        connectToLightPack(deviceListener);
-
-        //setup initial state before binding UI listeners to avoid double-calls...
-        refreshState();
-
-        uiController = new UiController(this, lightPack);
-        uiController.setupListeners();
-    }
-
-    public void connectToLightPack(LightPackResponseListener listener) {
         if (!isDeviceSetup()) {
             noDeviceSetup();
             return;
@@ -115,11 +99,35 @@ public class Main extends Activity {
         if (isLightpackConnected())
             return;
 
-        lightPack = LightPackConnector.connect(prefs.getDeviceAddress().get(), prefs.getDevicePort().get(), listener);
+        LightPackConnector.connect(prefs.getDeviceAddress().get(), prefs.getDevicePort().get(), deviceListener);
+    }
+
+    @Background
+    public void onConnect(LightPack lightPack) {
+        this.lightPack = lightPack;
+        //setup initial state before binding UI listeners to avoid double-calls...
+        refreshState();
+
+        uiController = new UiController(this, lightPack);
+        uiController.setupListeners();
     }
 
     public boolean isLightpackConnected() {
-        return lightPack != null;
+        return lightPack != null && isDeviceSetup();
+    }
+
+    public void onLightpackDisconnect() {
+        try {
+            LightPackConnector.disconnect(lightPack);
+        } catch (Exception e) {}
+        lightPack = null;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                lightSwitch.setChecked(false);
+                lightSwitch.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     public boolean isDeviceSetup() {
@@ -129,16 +137,15 @@ public class Main extends Activity {
     @UiThread
     public void refreshState() {
         if (!isLightpackConnected()) {
+            start();
+        } else {
+            refreshDeviceState();
+
+            this.menu.findItem(R.id.menu_lightSwitch).setVisible(true);
             pullToRefreshLayout.setRefreshComplete();
-            return;
+
+            randomizeActionBarColor(false);
         }
-
-        refreshDeviceState();
-
-        this.menu.findItem(R.id.menu_lightSwitch).setVisible(true);
-        pullToRefreshLayout.setRefreshComplete();
-
-        randomizeActionBarColor(false);
 
     }
 
@@ -152,6 +159,9 @@ public class Main extends Activity {
 
     @Background
     public void refreshDeviceState() {
+        if (!isLightpackConnected())
+            return;
+
         lightPack.requestLedCount();
         lightPack.requestLightStatus();
         lightPack.requestAllProfiles();
@@ -177,12 +187,14 @@ public class Main extends Activity {
             getActionBar().setBackgroundDrawable(new ColorDrawable(actionBarOnColor));
             statusMessageLayout.setVisibility(View.INVISIBLE);
             mainLayout.setVisibility(View.VISIBLE);
+            lightSwitch.setVisibility(View.VISIBLE);
             enableDrawer(true);
         } else {
             getActionBar().setBackgroundDrawable(new ColorDrawable(actionBarOffColor));
             statusMessage.setTextColor(Color.GRAY);
             statusMessageLayout.setVisibility(View.VISIBLE);
             mainLayout.setVisibility(View.INVISIBLE);
+            lightSwitch.setChecked(false);
             enableDrawer(false);
         }
     }
@@ -262,7 +274,7 @@ public class Main extends Activity {
     public void onBackPressed() {
         if (isLightpackConnected()) {
             try {
-                LightPackConnector.disconnect(lightPack);
+                onLightpackDisconnect();
             } catch (Exception e) {}
         }
         finish();

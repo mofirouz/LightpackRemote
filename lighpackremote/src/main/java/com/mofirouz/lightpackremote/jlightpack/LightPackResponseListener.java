@@ -1,8 +1,12 @@
 package com.mofirouz.lightpackremote.jlightpack;
 
+import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
+
 public interface LightPackResponseListener {
     //TODO: add callbacks here...
+    public void onConnect(LightPack lightPack);
     public void onConnectFailure();
+    public void onError(LightPackCommand command, Exception e);
     public void onLightsOff();
     public void onLightsOn();
     public void onProfiles(String[] profiles);

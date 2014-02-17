@@ -3,7 +3,7 @@ package com.mofirouz.lightpackremote.jlightpack;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
-import com.mofirouz.lightpackremote.jlightpack.api.LockError;
+import com.mofirouz.lightpackremote.jlightpack.api.LockException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -48,11 +48,15 @@ public class LightPackConnection {
     }
 
     public void requestInfo(LightPackCommand command) {
-        lock();
-        Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand()));
-        unlock();
+        try {
+            lock();
+            Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand()));
+            unlock();
 
-        lightPackResponseCaller.callback(result);
+            lightPackResponseCaller.callback(result);
+        } catch (Exception e) {
+            lightPackResponseCaller.onError(command, e);
+        }
     }
 
     public void sendCommand(LightPackCommand command, LightPackApiResponse value) {
@@ -60,11 +64,15 @@ public class LightPackConnection {
     }
 
     public void sendCommand(LightPackCommand command, String value) {
-        lock();
-        Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand() + ":" + value));
-        unlock();
+        try {
+            lock();
+            Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand() + ":" + value));
+            unlock();
 
-        lightPackResponseCaller.callback(result);
+            lightPackResponseCaller.callback(result);
+        } catch (Exception e) {
+            lightPackResponseCaller.onError(command, e);
+        }
     }
 
     public String readRawResponse() {
@@ -99,7 +107,7 @@ public class LightPackConnection {
         return result;
     }
 
-    private String sendCommand(final String command) {
+    private String sendCommand(final String command) throws Exception {
         try {
             return executorService.submit(new Callable<String>() {
                 @Override
@@ -111,8 +119,7 @@ public class LightPackConnection {
                 }
             }).get();
         } catch (Exception e) {
-            e.printStackTrace();
-            return "";
+            throw new Exception(e.getCause());
         }
     }
 
@@ -120,15 +127,24 @@ public class LightPackConnection {
         return socket;
     }
 
-    private void lock() throws LockError {
+    private void lock() throws LockException {
         if (lock)
             return;
 
-        sendCommand(LightPackCommand.LOCK.getCommand());
+        try {
+            sendCommand(LightPackCommand.LOCK.getCommand());
+        } catch (Exception e) {
+            throw new LockException(e);
+        }
+
     }
 
-    private void unlock() throws LockError {
-        sendCommand(LightPackCommand.UNLOCK.getCommand());
+    private void unlock() throws LockException {
+        try {
+            sendCommand(LightPackCommand.UNLOCK.getCommand());
+        } catch (Exception e) {
+            throw new LockException(e);
+        }
 
         lock = false;
     }
