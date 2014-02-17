@@ -1,5 +1,6 @@
 package com.mofirouz.lightpackremote.jlightpack;
 
+import com.mofirouz.lightpackremote.jlightpack.api.BadApiKeyException;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
@@ -21,6 +22,9 @@ public class LightPackResponseCaller {
             LightPackResponse response = responses.get(command);
 
             switch (command) {
+                case API_KEY:
+                    if (response.getApiResponse() != LightPackApiResponse.OK) listener.onError(command, new BadApiKeyException());
+
                 case GET_STATUS:
                     if (response.getApiResponse() == LightPackApiResponse.ON) listener.onLightsOn();
                     else listener.onLightsOff();

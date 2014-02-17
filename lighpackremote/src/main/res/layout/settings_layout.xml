@@ -46,9 +46,9 @@
                     android:editable="true"
                     android:enabled="true"
                     android:singleLine="false"
-                    android:textIsSelectable="false"
                     android:inputType="text"
-                    android:layout_weight="1"/>
+                    android:layout_weight="1"
+                    android:layout_span="1"/>
             </TableRow>
 
             <TableRow
@@ -67,22 +67,54 @@
 
             <TableRow
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="10dp">
 
                 <EditText
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:ems="10"
                     android:id="@+id/port_field"
                     android:maxLength="5"
                     android:numeric="integer"
                     android:layout_weight="1"
-                    android:textIsSelectable="false"
-                    android:singleLine="false"
+                    android:singleLine="true"
                     android:editable="true"
                     android:enabled="true"
                     android:layout_span="1"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:clickable="false"
+                android:measureWithLargestChild="false">
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/apikey_field"
+                    android:id="@+id/apikey_textView"
+                    android:textAppearance="@android:style/TextAppearance.Holo"/>
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_marginBottom="10dp">
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/apikey_field"
+                    android:autoText="false"
+                    android:editable="true"
+                    android:enabled="true"
+                    android:singleLine="false"
+                    android:textIsSelectable="false"
+                    android:inputType="text"
+                    android:layout_weight="1"/>
             </TableRow>
         </TableLayout>
 

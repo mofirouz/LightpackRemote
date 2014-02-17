@@ -40,6 +40,9 @@ public class SettingsActivity extends Activity implements ValidationListener {
     @ViewById
     EditText port_field;
 
+    @ViewById
+    EditText apikey_field;
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.settings_menu, menu);
@@ -53,6 +56,7 @@ public class SettingsActivity extends Activity implements ValidationListener {
         validator.setValidationListener(this);
 
         ip_field.setText(prefs.getDeviceAddress().get());
+        apikey_field.setText(prefs.getApiKey().get());
         if (prefs.getDevicePort().get() != 0)
             port_field.setText(String.valueOf(prefs.getDevicePort().get()));
     }
@@ -74,6 +78,7 @@ public class SettingsActivity extends Activity implements ValidationListener {
     public void onValidationSucceeded() {
         prefs.getDeviceAddress().put(ip_field.getText().toString().trim());
         prefs.getDevicePort().put(Integer.parseInt(port_field.getText().toString().trim()));
+        prefs.getApiKey().put(apikey_field.getText().toString().trim());
 
         onBackPressed();
     }

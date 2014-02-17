@@ -4,6 +4,7 @@ package com.mofirouz.lightpackremote.jlightpack.api;
  * List of available commands to send to Prismatik.
  */
 public enum LightPackCommand {
+    API_KEY("apikey"),
     LOCK ("lock"),
     UNLOCK ("unlock"),
     GET_STATUS ("getstatus"),

@@ -99,7 +99,10 @@ public class Main extends Activity {
         if (isLightpackConnected())
             return;
 
-        LightPackConnector.connect(prefs.getDeviceAddress().get(), prefs.getDevicePort().get(), deviceListener);
+        if (!prefs.getApiKey().get().isEmpty())
+            LightPackConnector.connect(prefs.getDeviceAddress().get(), prefs.getDevicePort().get(), prefs.getApiKey().get(), deviceListener);
+        else
+            LightPackConnector.connect(prefs.getDeviceAddress().get(), prefs.getDevicePort().get(), deviceListener);
     }
 
     @Background

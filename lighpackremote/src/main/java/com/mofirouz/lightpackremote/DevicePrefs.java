@@ -6,4 +6,5 @@ import com.googlecode.androidannotations.annotations.sharedpreferences.SharedPre
 public interface DevicePrefs {
     String getDeviceAddress();
     int getDevicePort();
+    String getApiKey();
 }
