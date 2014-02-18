@@ -8,9 +8,9 @@ An Android remote for Lightpack (see http://www.lightpack.tv)
 
 ###Demo
 Moodlamp Mode 1
-![Development Demo](assets/demo.png)
+![Development Demo](assets/nexus5.png)
 Settings Page
-![Development Demo](assets/demo3.png)
+![Development Demo](assets/nexus5-settings.png)
 Moodlamp Mode 2
-![Development Demo](assets/demo2.png)
+![Development Demo](assets/nexus10.png)
 

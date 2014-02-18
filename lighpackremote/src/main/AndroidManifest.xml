@@ -20,8 +20,7 @@
         </activity>
         <activity
             android:name=".SettingsActivity_"
-            android:label="@string/settings_title"
-            android:screenOrientation="portrait">
+            android:label="@string/settings_title">
         </activity>
 
     </application>
