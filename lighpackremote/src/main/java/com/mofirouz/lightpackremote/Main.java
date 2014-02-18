@@ -222,7 +222,7 @@ public class Main extends Activity {
     @UiThread
     public void changeActionBarColour(int color) {
         actionBarOnColor = color;
-        actionBarOffColor = ColourUtil.darker(actionBarOnColor, 1.5);
+        actionBarOffColor = ColourUtil.darker(actionBarOnColor, 0.5);
 
         updateActionBarColour();
     }
@@ -274,6 +274,7 @@ public class Main extends Activity {
         MenuItem lightSwitchMenu = this.menu.findItem(R.id.menu_lightSwitch);
         LinearLayout layout = (LinearLayout) lightSwitchMenu.getActionView();
         lightSwitch = (Switch) layout.findViewById(R.id.lightSwitch);
+        getActionBar().setDisplayShowTitleEnabled(false);
 
         return true;
     }
