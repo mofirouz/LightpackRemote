@@ -7,4 +7,10 @@ An Android remote for Lightpack (see http://www.lightpack.tv)
 - Depends on Prismatik 5.10.5+
 
 ###Demo
-![Development Demo](assets/demo.jpg)
+Moodlamp Mode 1
+![Development Demo](assets/demo.png)
+Settings Page
+![Development Demo](assets/demo3.png)
+Moodlamp Mode 2
+![Development Demo](assets/demo2.png)
+
