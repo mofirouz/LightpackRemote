@@ -1,4 +1,4 @@
-package com.mofirouz.lightpackremote.jlightpack.api;
+package com.mofirouz.jlightpack.api;
 
 /**
  * List of available commands to send to Prismatik.

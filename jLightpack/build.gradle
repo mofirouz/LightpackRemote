@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+version = '1.0-SNAPSHOT'
+
+group = 'com.mofirouz.jlightpack'
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'com.google.guava:guava:16.0.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+}
+
+jar {
+    manifest {
+        attributes "Implementation-Title": project.name,
+                "Implementation-Version": project.version,
+                "Created-By": "Gradle " + gradle.gradleVersion,
+                "Build-Jdk": System.properties['java.version'],
+                "Manifest-Version": 1.0
+    }
+}

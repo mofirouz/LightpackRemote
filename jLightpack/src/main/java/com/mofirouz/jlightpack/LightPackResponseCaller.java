@@ -1,9 +1,9 @@
-package com.mofirouz.lightpackremote.jlightpack;
+package com.mofirouz.jlightpack;
 
-import com.mofirouz.lightpackremote.jlightpack.api.BadApiKeyException;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
+import com.mofirouz.jlightpack.api.BadApiKeyException;
+import com.mofirouz.jlightpack.api.LightPackCommand;
+import com.mofirouz.jlightpack.api.LightPackResponse;
+import com.mofirouz.jlightpack.api.LightPackResponse.LightPackApiResponse;
 
 import java.util.List;
 import java.util.Map;

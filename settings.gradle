@@ -1,1 +1,4 @@
-include ':lighpackremote'
+rootProject.name = 'LightpackRemote'
+
+include 'lightpackremote'
+include 'jLightpack'

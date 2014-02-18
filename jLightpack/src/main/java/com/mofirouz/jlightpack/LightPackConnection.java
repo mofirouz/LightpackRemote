@@ -1,9 +1,9 @@
-package com.mofirouz.lightpackremote.jlightpack;
+package com.mofirouz.jlightpack;
 
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
-import com.mofirouz.lightpackremote.jlightpack.api.LockException;
+import com.mofirouz.jlightpack.api.LightPackCommand;
+import com.mofirouz.jlightpack.api.LightPackResponse;
+import com.mofirouz.jlightpack.api.LightPackResponse.LightPackApiResponse;
+import com.mofirouz.jlightpack.api.LockException;
 
 import java.io.IOException;
 import java.io.InputStream;

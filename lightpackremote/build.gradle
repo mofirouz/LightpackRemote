@@ -1,4 +1,15 @@
 apply plugin: 'android'
+apply plugin: 'idea'
+
+version = '1.0-SNAPSHOT'
+group = 'com.mofirouz.lightpackremote'
+
+idea {
+    module {
+        downloadJavadoc = true
+        downloadSources = true
+    }
+}
 
 android {
     compileSdkVersion 19
@@ -25,30 +36,20 @@ android {
         abortOnError false
     }
 
-    signingConfigs {
-        debug {
-            storeFile file("debug.keystore")
-        }
-
-        release {
-            storeFile file(System.console().readLine("\n\$ Enter keystore path: "))
-            storePassword new String(System.console().readPassword("\$ Enter keystore password: "))
-            keyAlias System.console().readLine("\$ Enter key alias: ")
-            keyPassword new String(System.console().readPassword("\$ Enter key password: "))
-        }
-    }
-
-    buildTypes {
-        release {
-            signingConfig signingConfigs.release
-        }
-
-        debug {
-            debuggable true
-            jniDebugBuild true
-            signingConfig signingConfigs.debug
-        }
-    }
+//    signingConfigs {
+//        release {
+//            storeFile file(System.console().readLine("\n\$ Enter keystore path: "))
+//            storePassword new String(System.console().readPassword("\$ Enter keystore password: "))
+//            keyAlias System.console().readLine("\$ Enter key alias: ")
+//            keyPassword new String(System.console().readPassword("\$ Enter key password: "))
+//        }
+//    }
+//
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.release
+//        }
+//    }
 }
 
 ext.daggerVersion = '1.0.0';
@@ -59,7 +60,7 @@ configurations {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:16.0.1'
+    compile project(':jLightpack')
 
     compile 'com.android.support:support-v4:13.0.+'
 

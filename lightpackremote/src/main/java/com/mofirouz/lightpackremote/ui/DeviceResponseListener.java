@@ -6,10 +6,10 @@ import android.widget.ArrayAdapter;
 
 import com.mofirouz.lightpackremote.Main;
 import com.mofirouz.lightpackremote.R;
-import com.mofirouz.lightpackremote.jlightpack.LightPack;
-import com.mofirouz.lightpackremote.jlightpack.LightPackResponseListener;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
+import com.mofirouz.jlightpack.LightPack;
+import com.mofirouz.jlightpack.LightPackResponseListener;
+import com.mofirouz.jlightpack.api.LightPackCommand;
+import com.mofirouz.jlightpack.api.LightPackResponse.LightPackApiResponse;
 
 public class DeviceResponseListener implements LightPackResponseListener {
     private final Main activity;

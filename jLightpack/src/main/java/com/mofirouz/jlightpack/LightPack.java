@@ -1,7 +1,7 @@
-package com.mofirouz.lightpackremote.jlightpack;
+package com.mofirouz.jlightpack;
 
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackApiResponse;
+import com.mofirouz.jlightpack.api.LightPackCommand;
+import com.mofirouz.jlightpack.api.LightPackResponse.LightPackApiResponse;
 
 /**
  * Represents a LightPack box. This object does *not* hold any state, and therefore every time a method is invoked, a network call is made.

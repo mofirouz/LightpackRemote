@@ -1,4 +1,4 @@
-package com.mofirouz.lightpackremote.jlightpack.api;
+package com.mofirouz.jlightpack.api;
 
 public class LockException extends Exception {
     public LockException() {}

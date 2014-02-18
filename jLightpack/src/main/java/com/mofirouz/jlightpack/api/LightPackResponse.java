@@ -1,4 +1,4 @@
-package com.mofirouz.lightpackremote.jlightpack.api;
+package com.mofirouz.jlightpack.api;
 
 import java.util.Arrays;
 import java.util.List;

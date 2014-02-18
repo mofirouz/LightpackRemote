@@ -12,7 +12,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.mofirouz.lightpackremote.Main;
-import com.mofirouz.lightpackremote.jlightpack.LightPack;
+import com.mofirouz.jlightpack.LightPack;
 
 public class UiController {
     private final Main activity;

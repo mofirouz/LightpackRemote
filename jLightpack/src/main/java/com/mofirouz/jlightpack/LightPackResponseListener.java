@@ -1,6 +1,6 @@
-package com.mofirouz.lightpackremote.jlightpack;
+package com.mofirouz.jlightpack;
 
-import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
+import com.mofirouz.jlightpack.api.LightPackCommand;
 
 public interface LightPackResponseListener {
     public void onConnect(LightPack lightPack);
