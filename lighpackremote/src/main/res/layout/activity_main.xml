@@ -11,7 +11,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <ScrollView
+        <ScrollView android:id="@+id/scrollView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
 
@@ -88,7 +88,7 @@
         android:dividerHeight="5dp"
         android:orientation="vertical"
         android:layout_marginLeft="15dp"
-        android:background="#000000">
+        android:background="@android:color/transparent">
 
         <TextView android:text="@string/profiles"
                   android:layout_width="fill_parent"

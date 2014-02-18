@@ -2,8 +2,11 @@ package com.mofirouz.lightpackremote;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
+import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +63,7 @@ public class Main extends Activity {
 
     @ViewById
     public DrawerLayout drawerLayout;
+    public ActionBarDrawerToggle drawerToggle;
 
     @ViewById
     public PullToRefreshLayout pullToRefreshLayout;
@@ -198,6 +202,8 @@ public class Main extends Activity {
             statusMessageLayout.setVisibility(View.INVISIBLE);
             mainLayout.setVisibility(View.VISIBLE);
             lightSwitch.setVisibility(View.VISIBLE);
+            getActionBar().setDisplayHomeAsUpEnabled(true);
+            getActionBar().setHomeButtonEnabled(true);
             enableDrawer(true);
         } else {
             getActionBar().setBackgroundDrawable(new ColorDrawable(actionBarOffColor));
@@ -206,7 +212,11 @@ public class Main extends Activity {
             mainLayout.setVisibility(View.INVISIBLE);
             lightSwitch.setChecked(false);
             enableDrawer(false);
+            getActionBar().setDisplayHomeAsUpEnabled(false);
+            getActionBar().setHomeButtonEnabled(false);
         }
+
+        drawerToggle.syncState();
     }
 
     private void randomizeActionBarColor(boolean bypassCheck) {
@@ -264,6 +274,55 @@ public class Main extends Activity {
 
         colourPicker.setShowOldCenterColor(false);
         colourPicker.addSaturationBar(colourSaturationPar);
+
+        drawerToggle = new ActionBarDrawerToggle(
+                this,                  /* host Activity */
+                drawerLayout,         /* DrawerLayout object */
+                R.drawable.ic_navigation_drawer,  /* nav drawer icon to replace 'Up' caret */
+                R.string.drawer_open,  /* "open drawer" description */
+                R.string.drawer_close  /* "close drawer" description */
+        ) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        // Set the drawer toggle as the DrawerListener
+        drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.setScrimColor(Color.argb(230, 0, 0, 0));
+        getActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        drawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        drawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -274,7 +333,6 @@ public class Main extends Activity {
         MenuItem lightSwitchMenu = this.menu.findItem(R.id.menu_lightSwitch);
         LinearLayout layout = (LinearLayout) lightSwitchMenu.getActionView();
         lightSwitch = (Switch) layout.findViewById(R.id.lightSwitch);
-        getActionBar().setDisplayShowTitleEnabled(false);
 
         return true;
     }

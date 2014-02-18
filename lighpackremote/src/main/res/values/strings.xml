@@ -12,6 +12,7 @@
 
     <string name="quit_question">Quit?</string>
     <string name="quit_message">Quit</string>
+    <string name="ptr">Pull to refresh</string>
 
     <string name="settings_title">Settings</string>
     <string name="ip_field">Device IP / Host: </string>
@@ -24,6 +25,9 @@
         <item>Ambilight</item>
         <item>Moodlamp</item>
     </string-array>
+
+    <string name="drawer_open">LightPack Remote </string>
+    <string name="drawer_close">LightPack Remote </string>
 
     <string name="profiles">Profile: </string>
     <string name="brightness">Brightness: </string>
