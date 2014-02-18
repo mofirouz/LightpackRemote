@@ -38,9 +38,9 @@ android {
 
 //    signingConfigs {
 //        release {
-//            storeFile file(System.console().readLine("\n\$ Enter keystore path: "))
+//            storeFile file("")
 //            storePassword new String(System.console().readPassword("\$ Enter keystore password: "))
-//            keyAlias System.console().readLine("\$ Enter key alias: ")
+//            keyAlias "ReleaseKey"
 //            keyPassword new String(System.console().readPassword("\$ Enter key password: "))
 //        }
 //    }

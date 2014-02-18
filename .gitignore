@@ -6,4 +6,6 @@
 *.iml
 *.ipr
 /jLightpack/build/*
+*.jks
+*.apk
 
