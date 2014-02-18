@@ -1,5 +1,6 @@
 package com.mofirouz.lightpackremote.ui;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
@@ -113,6 +114,8 @@ public class DeviceResponseListener implements LightPackResponseListener {
                 activity.moodlampLayout.setVisibility(View.VISIBLE);
             }
         });
+
+        activity.lightPack.requestLedColours();
     }
 
 
@@ -175,6 +178,21 @@ public class DeviceResponseListener implements LightPackResponseListener {
 
     @Override
     public void onLedCountUpdate(int leds) {
-        System.out.println("LED Update: " + leds);
+        activity.lightPack.setLedCount(leds);
+    }
+
+    @Override
+    public void onLedColourUpdate(int led, int red, int green, int blue) {
+        final int c = Color.argb(255, red, green, blue);
+
+        activity.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (c != activity.colourPicker.getColor())
+                    activity.colourPicker.setColor(c);
+
+                activity.changeActionBarColour(c);
+            }
+        });
     }
 }

@@ -20,6 +20,8 @@ public enum LightPackCommand {
     SET_GAMMA("setgamma"),
     GET_SMOOTHNESS("getsmoothness"),
     SET_SMOOTHNESS("setsmoothness"),
+    SET_COLOR("setcolor"),
+    GET_COLORS("getcolors"),
     COUNT_LEDS("getcountleds"),
     GET_FPS("getfps");
 

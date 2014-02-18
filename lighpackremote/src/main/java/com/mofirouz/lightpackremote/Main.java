@@ -24,6 +24,8 @@ import com.googlecode.androidannotations.annotations.OptionsItem;
 import com.googlecode.androidannotations.annotations.UiThread;
 import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
+import com.larswerkman.holocolorpicker.ColorPicker;
+import com.larswerkman.holocolorpicker.SaturationBar;
 import com.mofirouz.lightpackremote.jlightpack.ColourUtil;
 import com.mofirouz.lightpackremote.jlightpack.LightPack;
 import com.mofirouz.lightpackremote.jlightpack.LightPackConnector;
@@ -84,6 +86,11 @@ public class Main extends Activity {
     public SeekBar smoothnessSeekbar;
     @ViewById
     public TextView fps;
+
+    @ViewById
+    public ColorPicker colourPicker;
+    @ViewById
+    SaturationBar colourSaturationPar;
 
 
     @Background
@@ -209,7 +216,18 @@ public class Main extends Activity {
 
         actionBarOffColor = ColourUtil.generateColor();
         actionBarOnColor = ColourUtil.lighter(actionBarOffColor, 1.5);
+        updateActionBarColour();
+    }
 
+    @UiThread
+    public void changeActionBarColour(int color) {
+        actionBarOnColor = color;
+        actionBarOffColor = ColourUtil.darker(actionBarOnColor, 1.5);
+
+        updateActionBarColour();
+    }
+
+    private void updateActionBarColour() {
         getActionBar().setBackgroundDrawable(new ColorDrawable(actionBarOnColor));
 
         DefaultHeaderTransformer transformer = (DefaultHeaderTransformer) pullToRefreshLayout.getHeaderTransformer();
@@ -244,6 +262,8 @@ public class Main extends Activity {
         profileAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         profileSpinner.setAdapter(profileAdapter);
 
+        colourPicker.setShowOldCenterColor(false);
+        colourPicker.addSaturationBar(colourSaturationPar);
     }
 
     @Override

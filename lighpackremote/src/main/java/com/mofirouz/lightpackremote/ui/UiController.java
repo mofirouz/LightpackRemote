@@ -1,14 +1,16 @@
 package com.mofirouz.lightpackremote.ui;
 
+import android.graphics.Color;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.mofirouz.lightpackremote.Main;
 import com.mofirouz.lightpackremote.jlightpack.LightPack;
 
@@ -84,6 +86,20 @@ public class UiController {
         activity.gammaSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
         activity.smoothnessSeekbar.setOnSeekBarChangeListener(seekBarChangeListener);
 
+        final OnColorChangedListener colorChangedListener = new OnColorChangedListener() {
+            @Override
+            public void onColorChanged(int colour) {
+                activity.lightPack.updateLedColours(Color.red(colour), Color.green(colour), Color.blue(colour));
+            }
+        };
+
+        activity.colourPicker.setOnColorChangedListener(colorChangedListener);
+        activity.colourPicker.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                colorChangedListener.onColorChanged(activity.colourPicker.getColor());
+            }
+        });
     }
 
 }

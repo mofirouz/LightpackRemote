@@ -3,7 +3,6 @@ package com.mofirouz.lightpackremote.jlightpack;
 import com.mofirouz.lightpackremote.jlightpack.api.LightPackCommand;
 
 public interface LightPackResponseListener {
-    //TODO: add callbacks here...
     public void onConnect(LightPack lightPack);
     public void onConnectFailure();
     public void onError(LightPackCommand command, Exception e);
@@ -18,5 +17,5 @@ public interface LightPackResponseListener {
     public void onSmoothnessUpdate(int smoothness);
     public void onFpsUpdate(double fps);
     public void onLedCountUpdate(int leds);
-
+    public void onLedColourUpdate(int led, int red, int green, int blue);
 }

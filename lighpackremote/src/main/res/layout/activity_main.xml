@@ -17,7 +17,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="wrap_content">
 
                 <RelativeLayout android:id="@+id/statusMessageLayout"
                     android:layout_width="fill_parent"
@@ -44,7 +44,22 @@
 
                     <RelativeLayout android:id="@+id/moodlampLayout"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent">
+                        android:layout_height="fill_parent"
+                        android:gravity="center">
+
+                            <com.larswerkman.holocolorpicker.ColorPicker
+                                android:id="@+id/colourPicker"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"/>
+
+                            <com.larswerkman.holocolorpicker.SaturationBar
+                                android:id="@+id/colourSaturationPar"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_below="@+id/colourPicker"/>
+
                     </RelativeLayout>
 
                     <RelativeLayout android:id="@+id/ambilightLayout"

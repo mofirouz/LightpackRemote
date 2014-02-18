@@ -5,6 +5,7 @@ import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackAp
 
 /**
  * Represents a LightPack box. This object does *not* hold any state, and therefore every time a method is invoked, a network call is made.
+ * (Only exception is the LED count which can be optionally set to be held in an instance of this class)
  *
  * Method calls are non-blocking, and run on a separate non-UI thread.
  * When data is requested, the corresponding callback is made on the listener specific when creating this LightPack.
@@ -13,6 +14,8 @@ import com.mofirouz.lightpackremote.jlightpack.api.LightPackResponse.LightPackAp
 public class LightPack {
     private final LightPackConnection comm;
     private final String version;
+
+    private int ledCount;
 
     LightPack(LightPackConnection comm, String version) {
         this.comm = comm;
@@ -25,6 +28,14 @@ public class LightPack {
 
     public String getVersion() {
         return version;
+    }
+
+    public int getLedCount() {
+        return ledCount;
+    }
+
+    public void setLedCount(int ledCount) {
+        this.ledCount = ledCount;
     }
 
     public void requestLightStatus() {
@@ -93,4 +104,22 @@ public class LightPack {
         comm.requestInfo(LightPackCommand.COUNT_LEDS);
     }
 
+    public void requestLedColours() {
+        comm.requestInfo(LightPackCommand.GET_COLORS);
+    }
+
+    public void updateLedColours(int red, int green, int blue) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i <= ledCount; i++) {
+            builder.append(getLedColourUpdateCommand(i, red, green, blue));
+            builder.append(";");
+        }
+
+        comm.sendCommand(LightPackCommand.SET_COLOR, builder.toString());
+        requestLedColours();
+    }
+
+    private String getLedColourUpdateCommand(int ledNumber, int red, int green, int blue) {
+        return ledNumber + "-" + red + "," + green + "," + blue;
+    }
 }
