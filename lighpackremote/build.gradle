@@ -24,6 +24,31 @@ android {
     lintOptions {
         abortOnError false
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("debug.keystore")
+        }
+
+        release {
+            storeFile file(System.console().readLine("\n\$ Enter keystore path: "))
+            storePassword new String(System.console().readPassword("\$ Enter keystore password: "))
+            keyAlias System.console().readLine("\$ Enter key alias: ")
+            keyPassword new String(System.console().readPassword("\$ Enter key password: "))
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+        }
+
+        debug {
+            debuggable true
+            jniDebugBuild true
+            signingConfig signingConfigs.debug
+        }
+    }
 }
 
 ext.daggerVersion = '1.0.0';
