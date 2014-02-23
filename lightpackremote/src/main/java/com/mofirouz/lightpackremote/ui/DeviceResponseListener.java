@@ -162,6 +162,7 @@ public class DeviceResponseListener implements LightPackResponseListener {
             @Override
             public void run() {
                 activity.smoothnessSeekbar.setProgress(smoothness);
+                activity.lightPackAnimator.deviceSmoothness(smoothness);
             }
         });
     }
@@ -183,16 +184,16 @@ public class DeviceResponseListener implements LightPackResponseListener {
 
     @Override
     public void onLedColourUpdate(int led, int red, int green, int blue) {
-        final int c = Color.argb(255, red, green, blue);
-
-        activity.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (c != activity.colourPicker.getColor())
-                    activity.colourPicker.setColor(c);
-
-                activity.changeActionBarColour(c);
-            }
-        });
+//        final int c = Color.argb(255, red, green, blue);
+//
+//        activity.runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (c != activity.colourPicker.getColor())
+//                    activity.colourPicker.setColor(c);
+//
+//                activity.changeActionBarColour(c);
+//            }
+//        });
     }
 }

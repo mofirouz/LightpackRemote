@@ -24,10 +24,10 @@ public class LightPackConnector {
             LightPackConnection comm = new LightPackConnection(socket, new LightPackResponseCaller(listener));
             String version = comm.readRawResponse();
 
-            listener.onConnect(new LightPack(comm, version));
-
             if (!apiKey.isEmpty())
                 comm.sendCommand(LightPackCommand.API_KEY, apiKey);
+
+            listener.onConnect(new LightPack(comm, version));
 
         } catch (IOException e) {
             listener.onConnectFailure();

@@ -76,19 +76,19 @@ public class LightPackConnection {
     }
 
     public String readRawResponse() {
+        String data = "";
         byte[] bytesReceived = new byte[256];
         try {
-            int bytes = in.read(bytesReceived,0,bytesReceived.length);
-            String data = new String(bytesReceived, CHARSET_UTF8).trim();
-
-            data = data.replaceAll("\n", "");
-
-            return data;
-        } catch (IOException e) {
+            if (!socket.isClosed()) {
+                int bytes = in.read(bytesReceived,0,bytesReceived.length);
+                data = new String(bytesReceived, CHARSET_UTF8).trim();
+                data = data.replaceAll("\n", "");
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "";
+        return data;
     }
 
     private Map<LightPackCommand, LightPackResponse> mapResponse(LightPackCommand command, String rawResponse) {

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -11,6 +12,7 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
+import com.mofirouz.jlightpack.LightPackAnimator.AnimationStyle;
 import com.mofirouz.lightpackremote.Main;
 import com.mofirouz.jlightpack.LightPack;
 
@@ -89,7 +91,13 @@ public class UiController {
         final OnColorChangedListener colorChangedListener = new OnColorChangedListener() {
             @Override
             public void onColorChanged(int colour) {
-                activity.lightPack.updateLedColours(Color.red(colour), Color.green(colour), Color.blue(colour));
+                if (activity.lightPackAnimator.getAnimationStyle() == AnimationStyle.SNAKE) {
+                    activity.updateAnimator(AnimationStyle.SNAKE, colour);
+                } else {
+                    activity.lightPack.updateLedColours(Color.red(colour), Color.green(colour), Color.blue(colour));
+                }
+
+                activity.changeActionBarColour(colour);
             }
         };
 
@@ -97,7 +105,43 @@ public class UiController {
         activity.colourPicker.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                colorChangedListener.onColorChanged(activity.colourPicker.getColor());
+                int colour = activity.colourPicker.getColor();
+                if (activity.lightPackAnimator.getAnimationStyle() == AnimationStyle.SNAKE) {
+                    activity.updateAnimator(AnimationStyle.SNAKE, colour);
+                } else {
+                    activity.lightPack.updateLedColours(Color.red(colour), Color.green(colour), Color.blue(colour));
+                }
+
+                activity.changeActionBarColour(colour);
+
+            }
+        });
+
+        activity.animationSpinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        activity.updateAnimator(AnimationStyle.NONE, 0);
+                        break;
+                    case 1:
+                        activity.updateAnimator(AnimationStyle.SNAKE, activity.colourPicker.getColor());
+                        break;
+                    case 2:
+                        activity.updateAnimator(AnimationStyle.SNAKE_RANDOM, 0);
+                        break;
+                    case 3:
+                        activity.updateAnimator(AnimationStyle.COLOUR_FADE, 0);
+                        break;
+                    case 4:
+                        activity.updateAnimator(AnimationStyle.RANDOM, 0);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                activity.updateAnimator(AnimationStyle.NONE, 0);
             }
         });
     }

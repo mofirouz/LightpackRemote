@@ -29,6 +29,8 @@ import com.googlecode.androidannotations.annotations.ViewById;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
+import com.mofirouz.jlightpack.LightPackAnimator;
+import com.mofirouz.jlightpack.LightPackAnimator.AnimationStyle;
 import com.mofirouz.lightpackremote.ui.ColourUtil;
 import com.mofirouz.jlightpack.LightPack;
 import com.mofirouz.jlightpack.LightPackConnector;
@@ -50,6 +52,7 @@ public class Main extends Activity {
 
     public LightPackResponseListener deviceListener;
     public volatile LightPack lightPack;
+    public volatile LightPackAnimator lightPackAnimator;
 
     public UiController uiController;
     public OnRefreshListener refreshListener;
@@ -57,6 +60,7 @@ public class Main extends Activity {
     public Switch lightSwitch;
     public ArrayAdapter<CharSequence> spinnerAdapter;
     public ArrayAdapter<CharSequence> profileAdapter;
+    public ArrayAdapter<CharSequence> animationAdapter;
 
     @Pref
     DevicePrefs_ prefs;
@@ -94,7 +98,9 @@ public class Main extends Activity {
     @ViewById
     public ColorPicker colourPicker;
     @ViewById
-    SaturationBar colourSaturationPar;
+    public SaturationBar colourSaturationPar;
+    @ViewById
+    public Spinner animationSpinner;
 
 
     @Background
@@ -119,6 +125,7 @@ public class Main extends Activity {
     @Background
     public void onConnect(LightPack lightPack) {
         this.lightPack = lightPack;
+        this.lightPackAnimator = new LightPackAnimator(lightPack);
         //setup initial state before binding UI listeners to avoid double-calls...
         refreshState();
 
@@ -183,6 +190,27 @@ public class Main extends Activity {
         lightPack.requestBrightness();
         lightPack.requestGamma();
         lightPack.requestSmoothness();
+    }
+
+    @Background
+    public void updateAnimator(AnimationStyle style, int color) {
+        switch (style) {
+            case NONE:
+                lightPackAnimator.stop();
+                break;
+            case COLOUR_FADE:
+                lightPackAnimator.fadeColours();
+                break;
+            case SNAKE:
+                lightPackAnimator.snake(Color.red(color), Color.green(color), Color.blue(color));
+                break;
+            case SNAKE_RANDOM:
+                lightPackAnimator.randomSnake();
+                break;
+            case RANDOM:
+                lightPackAnimator.random();
+                break;
+        }
     }
 
 // --------------------
@@ -271,6 +299,11 @@ public class Main extends Activity {
         profileAdapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item);
         profileAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         profileSpinner.setAdapter(profileAdapter);
+
+        animationAdapter = ArrayAdapter.createFromResource(this, R.array.animation_modes, android.R.layout.simple_spinner_item);
+        animationAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        animationSpinner.setAdapter(animationAdapter);
+        animationSpinner.setSelection(0); // select NONE
 
         colourPicker.setShowOldCenterColor(false);
         colourPicker.addSaturationBar(colourSaturationPar);

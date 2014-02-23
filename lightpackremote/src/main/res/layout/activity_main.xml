@@ -47,19 +47,36 @@
                         android:layout_height="fill_parent"
                         android:gravity="center">
 
-                            <com.larswerkman.holocolorpicker.ColorPicker
-                                android:id="@+id/colourPicker"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_gravity="center"/>
+                        <com.larswerkman.holocolorpicker.ColorPicker
+                            android:id="@+id/colourPicker"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"/>
 
-                            <com.larswerkman.holocolorpicker.SaturationBar
-                                android:id="@+id/colourSaturationPar"
+                        <com.larswerkman.holocolorpicker.SaturationBar
+                            android:id="@+id/colourSaturationPar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_below="@+id/colourPicker"/>
+
+                        <TextView android:id="@+id/animationLabel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/colourSaturationPar"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_marginLeft="5dp"
+                            android:text="@string/animation"/>
+
+                        <Spinner android:id="@+id/animationSpinner"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_below="@+id/colourPicker"/>
-
+                                android:layout_below="@+id/animationLabel"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="5dp"
+                                android:layout_marginLeft="5dp"
+                                android:spinnerMode="dropdown"/>
                     </RelativeLayout>
 
                     <RelativeLayout android:id="@+id/ambilightLayout"

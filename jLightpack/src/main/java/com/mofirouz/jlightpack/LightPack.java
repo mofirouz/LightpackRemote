@@ -1,5 +1,7 @@
 package com.mofirouz.jlightpack;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.mofirouz.jlightpack.api.LightPackCommand;
 import com.mofirouz.jlightpack.api.LightPackResponse.LightPackApiResponse;
 
@@ -106,6 +108,23 @@ public class LightPack {
 
     public void requestLedColours() {
         comm.requestInfo(LightPackCommand.GET_COLORS);
+    }
+
+    public void updateLedColour(int i, int red, int green, int blue) {
+        comm.sendCommand(LightPackCommand.SET_COLOR, getLedColourUpdateCommand(i, red, green, blue));
+        requestLedColours();
+    }
+
+    /**
+     * Multimap of LEDs to RGB Colours. You can pass in
+     * however number of Keys and Values, however only the first 'LedCount' numbers are read.
+     */
+    public void updateLedColours(ArrayListMultimap<Integer, Integer> colours){
+        StringBuilder builder = new StringBuilder();
+        for (int i = 1; i <= ledCount; i++) {
+            builder.append(getLedColourUpdateCommand(i, colours.get(i).get(0), colours.get(i).get(1), colours.get(i).get(2)));
+            builder.append(";");
+        }
     }
 
     public void updateLedColours(int red, int green, int blue) {

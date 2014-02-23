@@ -35,5 +35,14 @@
     <string name="smoothness">Smoothness: </string>
     <string name="fps">FPS: </string>
 
+    <string name="animation">Animation: </string>
+    <string-array name="animation_modes">
+        <item>None</item>
+        <item>Mono Colour Snake</item>
+        <item>Random Colour Snake</item>
+        <item>Color Fade</item>
+        <item>Random</item>
+    </string-array>
+
 
 </resources>
