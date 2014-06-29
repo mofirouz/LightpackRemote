@@ -51,7 +51,7 @@ public class LightPackConnection {
         try {
             lock();
             Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand()));
-//            unlock(); //TODO: Fix me when Lightpack Api has been updated
+            unlock();
 
             lightPackResponseCaller.callback(result);
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class LightPackConnection {
         try {
             lock();
             Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand() + ":" + value));
-//            unlock(); //TODO: Fix me when Lightpack Api has been updated
+            unlock();
 
             lightPackResponseCaller.callback(result);
         } catch (Exception e) {
