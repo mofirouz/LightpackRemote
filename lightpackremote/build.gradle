@@ -1,5 +1,6 @@
 apply plugin: 'android'
 apply plugin: 'idea'
+apply plugin: 'android-apt'
 
 version = '1.0-SNAPSHOT'
 group = 'com.mofirouz.lightpackremote'
@@ -11,9 +12,16 @@ idea {
     }
 }
 
+apt {
+    arguments {
+        androidManifestFile variant.processResources.manifestFile
+        resourcePackageName "com.mofirouz.lightpackremote"
+    }
+}
+
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion "19.1.0"
 
     defaultConfig {
         minSdkVersion 16
@@ -29,7 +37,11 @@ android {
     }
 
     sourceSets {
-        main { java.srcDirs = ['src/main/java', 'build/source/apt_generated'] }
+        main {
+            java {
+                srcDirs = ['src/main/java', 'build/source/apt_generated']
+            }
+        }
     }
 
     lintOptions {
@@ -52,8 +64,7 @@ android {
 //    }
 }
 
-ext.daggerVersion = '1.0.0';
-ext.androidAnnotationsVersion = '2.7.1';
+ext.androidAnnotationsVersion = '3.0.1';
 
 configurations {
     apt
@@ -64,8 +75,8 @@ dependencies {
 
     compile 'com.android.support:support-v4:13.0.+'
 
-    apt "com.googlecode.androidannotations:androidannotations:${androidAnnotationsVersion}"
-    compile "com.googlecode.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
+    apt "org.androidannotations:androidannotations:${androidAnnotationsVersion}"
+    compile "org.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
 
     compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'

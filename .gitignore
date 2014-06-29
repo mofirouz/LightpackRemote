@@ -8,4 +8,5 @@
 /jLightpack/build/*
 *.jks
 *.apk
-
+classes/
+build/
