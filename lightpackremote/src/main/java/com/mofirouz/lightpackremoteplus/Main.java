@@ -1,4 +1,4 @@
-package com.mofirouz.lightpackremote;
+package com.mofirouz.lightpackremoteplus;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -31,13 +31,13 @@ import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.SaturationBar;
 import com.mofirouz.jlightpack.LightPackAnimator;
 import com.mofirouz.jlightpack.LightPackAnimator.AnimationStyle;
-import com.mofirouz.lightpackremote.ui.ColourUtil;
+import com.mofirouz.lightpackremoteplus.ui.ColourUtil;
 import com.mofirouz.jlightpack.LightPack;
 import com.mofirouz.jlightpack.LightPackConnector;
 import com.mofirouz.jlightpack.LightPackResponseListener;
-import com.mofirouz.lightpackremote.ui.DeviceResponseListener;
-import com.mofirouz.lightpackremote.ui.MainActivityOnRefreshListener;
-import com.mofirouz.lightpackremote.ui.UiController;
+import com.mofirouz.lightpackremoteplus.ui.DeviceResponseListener;
+import com.mofirouz.lightpackremoteplus.ui.MainActivityOnRefreshListener;
+import com.mofirouz.lightpackremoteplus.ui.UiController;
 
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.DefaultHeaderTransformer;

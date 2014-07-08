@@ -1,4 +1,4 @@
-package com.mofirouz.lightpackremote;
+package com.mofirouz.lightpackremoteplus;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,8 +19,8 @@ import com.mobsandgeeks.saripaar.Validator.ValidationListener;
 import com.mobsandgeeks.saripaar.annotation.NumberRule;
 import com.mobsandgeeks.saripaar.annotation.NumberRule.NumberType;
 import com.mobsandgeeks.saripaar.annotation.Required;
-import com.mofirouz.lightpackremote.R.id;
-import com.mofirouz.lightpackremote.R.layout;
+import com.mofirouz.lightpackremoteplus.R.id;
+import com.mofirouz.lightpackremoteplus.R.layout;
 
 @EActivity(layout.settings_layout)
 public class SettingsActivity extends Activity implements ValidationListener {

@@ -1,11 +1,10 @@
-package com.mofirouz.lightpackremote.ui;
+package com.mofirouz.lightpackremoteplus.ui;
 
-import android.graphics.Color;
 import android.view.View;
 import android.widget.ArrayAdapter;
 
-import com.mofirouz.lightpackremote.Main;
-import com.mofirouz.lightpackremote.R;
+import com.mofirouz.lightpackremoteplus.Main;
+import com.mofirouz.lightpackremoteplus.R;
 import com.mofirouz.jlightpack.LightPack;
 import com.mofirouz.jlightpack.LightPackResponseListener;
 import com.mofirouz.jlightpack.api.LightPackCommand;

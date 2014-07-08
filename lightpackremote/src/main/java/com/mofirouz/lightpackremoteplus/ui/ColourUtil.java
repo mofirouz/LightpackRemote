@@ -1,4 +1,4 @@
-package com.mofirouz.lightpackremote.ui;
+package com.mofirouz.lightpackremoteplus.ui;
 
 
 import android.graphics.Color;

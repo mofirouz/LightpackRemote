@@ -1,4 +1,4 @@
-package com.mofirouz.lightpackremote;
+package com.mofirouz.lightpackremoteplus;
 
 import org.androidannotations.annotations.sharedpreferences.SharedPref;
 

@@ -1,8 +1,8 @@
-package com.mofirouz.lightpackremote.ui;
+package com.mofirouz.lightpackremoteplus.ui;
 
 import android.view.View;
 
-import com.mofirouz.lightpackremote.Main;
+import com.mofirouz.lightpackremoteplus.Main;
 
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 

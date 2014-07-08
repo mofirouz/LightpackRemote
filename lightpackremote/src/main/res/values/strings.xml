@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Lightpack Remote</string>
+    <string name="app_name">Lightpack Remote+</string>
     <string name="action_settings">Settings</string>
     <string name="api_update_notice">\n\nThere will be more settings here as the Prismatik API gains more power,\nsuch as the ability to set screen grab delays and etc.</string>
 

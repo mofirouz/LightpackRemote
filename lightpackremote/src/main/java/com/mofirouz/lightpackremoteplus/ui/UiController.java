@@ -1,10 +1,9 @@
-package com.mofirouz.lightpackremote.ui;
+package com.mofirouz.lightpackremoteplus.ui;
 
 import android.graphics.Color;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
@@ -13,7 +12,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 
 import com.larswerkman.holocolorpicker.ColorPicker.OnColorChangedListener;
 import com.mofirouz.jlightpack.LightPackAnimator.AnimationStyle;
-import com.mofirouz.lightpackremote.Main;
+import com.mofirouz.lightpackremoteplus.Main;
 import com.mofirouz.jlightpack.LightPack;
 
 public class UiController {
