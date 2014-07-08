@@ -33,12 +33,17 @@ public class LightPackAnimator {
         deviceSmoothness = smoothness;
     }
 
+    public void shutdownNow() {
+        stop();
+        executor.shutdownNow();
+    }
+
     public void stop() {
         if (animationFuture != null)
             animationFuture.cancel(false);
 
         style = AnimationStyle.NONE;
-        lightPack.updateSmoothness(deviceSmoothness);
+//        lightPack.updateSmoothness(deviceSmoothness);
     }
 
     public void snake(final int red, final int green, final int blue) {

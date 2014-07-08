@@ -1,6 +1,8 @@
 package com.mofirouz.jlightpack.api;
 
-public class LockException extends Exception {
+import java.io.IOException;
+
+public class LockException extends IOException {
     public LockException() {}
     public LockException(Exception e) {super(e);}
 

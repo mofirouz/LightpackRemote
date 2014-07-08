@@ -35,6 +35,7 @@ public class LightPackConnector {
     }
 
     public static void disconnect(LightPack lightPack) throws IOException {
+        lightPack.getComm().unlock();
         lightPack.getComm().getSocket().close();
     }
 }

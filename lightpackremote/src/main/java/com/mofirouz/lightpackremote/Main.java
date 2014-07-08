@@ -139,9 +139,12 @@ public class Main extends Activity {
 
     public void onLightpackDisconnect() {
         try {
+            lightPackAnimator.shutdownNow();
             LightPackConnector.disconnect(lightPack);
         } catch (Exception e) {}
+
         lightPack = null;
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -386,7 +389,21 @@ public class Main extends Activity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (isLightpackConnected()) {
+            try {
+                onLightpackDisconnect();
+            } catch (Exception e) {}
+        }
+        finish();
+    }
+
+    @Override
     public void onBackPressed() {
+        super.onBackPressed();
+
         if (isLightpackConnected()) {
             try {
                 onLightpackDisconnect();

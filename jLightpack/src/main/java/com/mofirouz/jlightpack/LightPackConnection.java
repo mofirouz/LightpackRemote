@@ -51,7 +51,7 @@ public class LightPackConnection {
         try {
             lock();
             Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand()));
-            unlock();
+//            unlock();
 
             lightPackResponseCaller.callback(result);
         } catch (Exception e) {
@@ -67,7 +67,7 @@ public class LightPackConnection {
         try {
             lock();
             Map<LightPackCommand, LightPackResponse> result = mapResponse(command, sendCommand(command.getCommand() + ":" + value));
-            unlock();
+            //unlock();
 
             lightPackResponseCaller.callback(result);
         } catch (Exception e) {
@@ -139,7 +139,7 @@ public class LightPackConnection {
 
     }
 
-    private void unlock() throws LockException {
+    protected void unlock() throws LockException {
         try {
             sendCommand(LightPackCommand.UNLOCK.getCommand());
         } catch (Exception e) {

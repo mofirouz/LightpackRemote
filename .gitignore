@@ -10,3 +10,5 @@
 *.apk
 classes/
 build/
+release/
+

@@ -2,7 +2,7 @@ apply plugin: 'android'
 apply plugin: 'idea'
 apply plugin: 'android-apt'
 
-version = '1.0-SNAPSHOT'
+version = '1.1'
 group = 'com.mofirouz.lightpackremote'
 
 idea {
@@ -20,9 +20,12 @@ apt {
 }
 
 android {
+    signingConfigs {
+        Release {
+        }
+    }
     compileSdkVersion 19
-    buildToolsVersion "19.1.0"
-
+    buildToolsVersion '19.1.0'
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 19
@@ -35,19 +38,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-
-    sourceSets {
-        main {
-            java {
-                srcDirs = ['src/main/java', 'build/source/apt_generated']
-            }
-        }
-    }
-
+//    sourceSets {
+//        main {
+//            java {
+//                srcDirs = ['src/main/java', 'build/source/apt_generated']
+//            }
+//        }
+//    }
     lintOptions {
         abortOnError false
     }
-
 //    signingConfigs {
 //        release {
 //            storeFile file("")
@@ -64,20 +64,10 @@ android {
 //    }
 }
 
-ext.androidAnnotationsVersion = '3.0.1';
-
-configurations {
-    apt
-}
-
 dependencies {
     compile project(':jLightpack')
-
     compile 'com.android.support:support-v4:13.0.+'
-
-    apt "org.androidannotations:androidannotations:${androidAnnotationsVersion}"
-    compile "org.androidannotations:androidannotations-api:${androidAnnotationsVersion}"
-
+    compile "org.androidannotations:androidannotations:3.0.1"
     compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.3'

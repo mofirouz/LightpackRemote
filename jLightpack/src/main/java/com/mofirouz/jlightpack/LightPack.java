@@ -4,6 +4,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
 import com.mofirouz.jlightpack.api.LightPackCommand;
 import com.mofirouz.jlightpack.api.LightPackResponse.LightPackApiResponse;
+import com.mofirouz.jlightpack.api.LockException;
 
 /**
  * Represents a LightPack box. This object does *not* hold any state, and therefore every time a method is invoked, a network call is made.
