@@ -51,6 +51,7 @@ public class DeviceResponseListener implements LightPackResponseListener {
 
                 activity.statusMessage.setText(R.string.off_device);
                 activity.enableApplicationUi(false);
+                activity.lightSwitch.setVisibility(View.VISIBLE);
             }
         });
     }

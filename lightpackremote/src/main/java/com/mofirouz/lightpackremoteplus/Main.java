@@ -385,7 +385,13 @@ public class Main extends Activity {
     void showSettingsActivity() {
         Intent intent = new Intent(this, SettingsActivity_.class);
         startActivity(intent);
-        onBackPressed();
+
+        if (isLightpackConnected()) {
+            try {
+                onLightpackDisconnect();
+            } catch (Exception e) {}
+        }
+        finish();
     }
 
     @Override

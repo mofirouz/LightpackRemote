@@ -19,7 +19,7 @@ public class LightPackConnector {
             Socket socket = new Socket();
             socket.setTcpNoDelay(true);
             socket.setReceiveBufferSize(socket.getReceiveBufferSize() * 2);
-            socket.connect(new InetSocketAddress(host, port), 5000);
+            socket.connect(new InetSocketAddress(host, port), 1000);
 
             LightPackConnection comm = new LightPackConnection(socket, new LightPackResponseCaller(listener));
             String version = comm.readRawResponse();

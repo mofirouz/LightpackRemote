@@ -11,6 +11,10 @@ idea {
     }
 }
 
+configurations {
+    apt
+}
+
 apt {
     arguments {
         androidManifestFile variant.processResources.manifestFile
@@ -37,16 +41,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-//    sourceSets {
-//        main {
-//            java {
-//                srcDirs = ['src/main/java', 'build/source/apt_generated']
-//            }
-//        }
-//    }
-    lintOptions {
-        abortOnError false
+
+    sourceSets {
+        main {
+           java.srcDirs = ['src/main/java', 'build/source/apt_generated']
+        }
     }
+
 //    signingConfigs {
 //        release {
 //            storeFile file("")
@@ -65,22 +66,43 @@ android {
 
 dependencies {
     compile project(':jLightpack')
-    compile 'com.android.support:support-v4:13.0.+'
-    compile "org.androidannotations:androidannotations:3.0.1"
+
+    apt 'org.androidannotations:androidannotations:3.0.1'
+    compile "org.androidannotations:androidannotations-api:3.0.1"
+
+    compile 'com.android.support:support-v4:18.0.+'
     compile 'com.github.chrisbanes.actionbarpulltorefresh:library:+'
     compile 'com.mobsandgeeks:android-saripaar:1.0.2'
     compile 'com.larswerkman:HoloColorPicker:1.3'
 }
 
+def getSourceSetName(variant) {
+    return new File(variant.dirName).getName();
+}
+
 android.applicationVariants.all { variant ->
-    aptOutput = file("${project.buildDir}/source/apt_generated")
+    def aptOutputDir = project.file("build/source/apt")
+    def aptOutput = new File(aptOutputDir, variant.dirName)
+    println "****************************"
+    println "variant: ${variant.name}"
+    println "manifest: ${variant.processResources.manifestFile}"
+    println "aptOutput: ${aptOutput}"
+    println "****************************"
+
+    android.sourceSets[getSourceSetName(variant)].java.srcDirs += aptOutput.getPath()
+
+    variant.javaCompile.options.compilerArgs += [
+            '-processorpath', configurations.apt.getAsPath(),
+//            '-processor', 'com.googlecode.androidannotations.AndroidAnnotationProcessor',
+            '-AandroidManifestFile=' + variant.processResources.manifestFile,
+            '-s', aptOutput
+    ]
+
+    variant.javaCompile.source = variant.javaCompile.source.filter { p ->
+        return !p.getPath().startsWith(aptOutputDir.getPath())
+    }
+
     variant.javaCompile.doFirst {
         aptOutput.mkdirs()
-        variant.javaCompile.options.compilerArgs += [
-                '-processorpath', configurations.apt.getAsPath(),
-                '-AandroidManifestFile=' + variant.processResources.manifestFile,
-                '-s', aptOutput
-        ]
-        android.sourceSets.main.java.srcDirs = ['src']
     }
 }
